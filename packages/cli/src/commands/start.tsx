@@ -9,7 +9,6 @@
  * (or equivalent flag) at launch time — no file writing required.
  */
 
-import { spawn } from "node:child_process";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { resolve, basename } from "node:path";
 import { cwd } from "node:process";
@@ -42,7 +41,6 @@ import { parse as yamlParse, stringify as yamlStringify } from "yaml";
 import { exec, execSilent, git } from "../lib/shell.js";
 import { getSessionManager } from "../lib/create-session-manager.js";
 import { ensureLifecycleWorker, stopLifecycleWorker } from "../lib/lifecycle-service.js";
-import { preflight } from "../lib/preflight.js";
 import { register, unregister, isAlreadyRunning, getRunning, waitForExit } from "../lib/running-state.js";
 import { isHumanCaller } from "../lib/caller-context.js";
 import { detectEnvironment } from "../lib/detect-env.js";
@@ -156,7 +154,7 @@ async function startTerminalRenderer(config: OrchestratorConfig): Promise<() => 
     try {
       sessions = await sm.list();
       rerender(<TerminalRenderer sessions={sessions} />);
-    } catch (err) {
+    } catch {
       // Ignore polling errors
     }
   }, 5000);
@@ -508,7 +506,7 @@ async function runStartup(
   let reused = false;
 
   // Start lifecycle worker
-  let lifecycleStatus: Awaited<ReturnType<typeof ensureLifecycleWorker>> | null = null;
+  let lifecycleStatus!: Awaited<ReturnType<typeof ensureLifecycleWorker>>;
   try {
     spinner.start("Starting lifecycle worker");
     lifecycleStatus = await ensureLifecycleWorker(config, projectId);
@@ -553,13 +551,11 @@ async function runStartup(
   // Print summary
   console.log(chalk.bold.green("\n✓ Startup complete\n"));
 
-  if (lifecycleStatus) {
-    const lifecycleLabel = lifecycleStatus.started ? "started" : "already running";
-    const lifecycleTarget = lifecycleStatus.pid
-      ? `${lifecycleLabel} (PID ${lifecycleStatus.pid})`
-      : lifecycleLabel;
-    console.log(chalk.cyan("Lifecycle:"), lifecycleTarget);
-  }
+  const lifecycleLabel = lifecycleStatus.started ? "started" : "already running";
+  const lifecycleTarget = lifecycleStatus.pid
+    ? `${lifecycleLabel} (PID ${lifecycleStatus.pid})`
+    : lifecycleLabel;
+  console.log(chalk.cyan("Lifecycle:"), lifecycleTarget);
 
   if (opts?.orchestrator !== false && !reused) {
     console.log(chalk.cyan("Orchestrator:"), `tmux attach -t ${tmuxTarget}`);

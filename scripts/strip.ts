@@ -36,7 +36,6 @@ for (const dir of DIRS_TO_DELETE) {
 
 // 2. Update pnpm-workspace.yaml (uses globs, no explicit packages to remove)
 console.log("\n2. Checking pnpm-workspace.yaml...");
-const workspacePath = join(ROOT, "pnpm-workspace.yaml");
 // The workspace uses globs like "packages/*" and "packages/plugins/*"
 // so deleted dirs are automatically excluded. No changes needed.
 console.log("   ✓ Uses globs — no explicit package refs to remove");
