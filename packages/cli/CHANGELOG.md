@@ -17,7 +17,6 @@
   - @composio/ao-plugin-agent-opencode@0.2.0
   - @composio/ao-plugin-notifier-composio@0.2.0
   - @composio/ao-plugin-notifier-desktop@0.2.0
-  - @composio/ao-plugin-notifier-openclaw@0.1.1
   - @composio/ao-plugin-notifier-slack@0.2.0
   - @composio/ao-plugin-notifier-webhook@0.2.0
   - @composio/ao-plugin-runtime-process@0.2.0

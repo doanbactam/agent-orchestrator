@@ -237,35 +237,35 @@ describe("loadBuiltins", () => {
 
   it("passes notifier config from config.notifiers when loading builtins", async () => {
     const registry = createPluginRegistry();
-    const fakeOpenClaw = makePlugin("notifier", "openclaw");
+    const fakeWebhook = makePlugin("notifier", "webhook");
     const cfg = makeOrchestratorConfig({
       notifiers: {
-        openclaw: {
-          plugin: "openclaw",
-          url: "http://127.0.0.1:18789/hooks/agent",
-          token: "tok",
+        webhook: {
+          plugin: "webhook",
+          url: "http://127.0.0.1:8787/hook",
+          retries: 2,
         },
       },
     });
 
     await registry.loadBuiltins(cfg, async (pkg: string) => {
-      if (pkg === "@composio/ao-plugin-notifier-openclaw") return fakeOpenClaw;
+      if (pkg === "@composio/ao-plugin-notifier-webhook") return fakeWebhook;
       throw new Error(`Not found: ${pkg}`);
     });
 
-    expect(fakeOpenClaw.create).toHaveBeenCalledWith({
-      url: "http://127.0.0.1:18789/hooks/agent",
-      token: "tok",
+    expect(fakeWebhook.create).toHaveBeenCalledWith({
+      url: "http://127.0.0.1:8787/hook",
+      retries: 2,
     });
   });
 
   it("does not match notifier key when explicit plugin points to another notifier", async () => {
     const registry = createPluginRegistry();
-    const fakeOpenClaw = makePlugin("notifier", "openclaw");
+    const fakeSlack = makePlugin("notifier", "slack");
     const fakeWebhook = makePlugin("notifier", "webhook");
     const cfg = makeOrchestratorConfig({
       notifiers: {
-        openclaw: {
+        slack: {
           plugin: "webhook",
           url: "http://127.0.0.1:8787/hook",
           retries: 3,
@@ -274,12 +274,12 @@ describe("loadBuiltins", () => {
     });
 
     await registry.loadBuiltins(cfg, async (pkg: string) => {
-      if (pkg === "@composio/ao-plugin-notifier-openclaw") return fakeOpenClaw;
+      if (pkg === "@composio/ao-plugin-notifier-slack") return fakeSlack;
       if (pkg === "@composio/ao-plugin-notifier-webhook") return fakeWebhook;
       throw new Error(`Not found: ${pkg}`);
     });
 
-    expect(fakeOpenClaw.create).toHaveBeenCalledWith(undefined);
+    expect(fakeSlack.create).toHaveBeenCalledWith(undefined);
     expect(fakeWebhook.create).toHaveBeenCalledWith({
       url: "http://127.0.0.1:8787/hook",
       retries: 3,

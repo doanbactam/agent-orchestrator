@@ -45,7 +45,6 @@ const BUILTIN_PLUGINS: Array<{ slot: PluginSlot; name: string; pkg: string }> = 
   // Notifiers
   { slot: "notifier", name: "composio", pkg: "@composio/ao-plugin-notifier-composio" },
   { slot: "notifier", name: "desktop", pkg: "@composio/ao-plugin-notifier-desktop" },
-  { slot: "notifier", name: "openclaw", pkg: "@composio/ao-plugin-notifier-openclaw" },
   { slot: "notifier", name: "slack", pkg: "@composio/ao-plugin-notifier-slack" },
   { slot: "notifier", name: "webhook", pkg: "@composio/ao-plugin-notifier-webhook" },
   // Terminals
@@ -60,7 +59,7 @@ function extractPluginConfig(
   config: OrchestratorConfig,
 ): Record<string, unknown> | undefined {
   // Notifiers are configured under config.notifiers.<id>.
-  // Match by key (e.g. "openclaw") or explicit plugin field.
+  // Match by key (e.g. "webhook") or explicit plugin field.
   if (slot === "notifier") {
     for (const [notifierName, notifierConfig] of Object.entries(config.notifiers ?? {})) {
       if (!notifierConfig || typeof notifierConfig !== "object") continue;

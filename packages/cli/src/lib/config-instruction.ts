@@ -22,7 +22,7 @@ defaults:
   agent: claude-code          # claude-code | aider | codex | opencode
   workspace: worktree         # worktree | clone
   notifiers:                  # List of active notifier plugins
-    - desktop                 # desktop | slack | webhook | composio | openclaw
+    - desktop                 # desktop | slack | webhook | composio
   orchestrator:
     agent: claude-code        # Agent for orchestrator sessions (optional override)
   worker:
@@ -122,7 +122,7 @@ notificationRouting:
 # Workspace: worktree, clone
 # SCM:       github, gitlab
 # Tracker:   github, linear, gitlab
-# Notifier:  desktop, slack, webhook, composio, openclaw
+# Notifier:  desktop, slack, webhook, composio
 # Terminal:  iterm2, web
 `.trim();
 }

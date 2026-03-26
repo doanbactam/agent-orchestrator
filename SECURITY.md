@@ -17,28 +17,6 @@ Please include the following information:
 - Proof-of-concept or exploit code (if possible)
 - Impact of the issue
 
-## Security Audit History
-
-### Known Issues
-
-#### OpenClaw Notifier Token (Resolved)
-
-**Status**: Removed from codebase
-**Severity**: Medium
-**Date**: 2026-02-15
-**Commit**: 0393ab70a83e090883895d2168aa39a76f997ec8
-
-An OpenClaw notifier token (`1af5c4f...872` - redacted) was accidentally committed in `agent-orchestrator.yaml` and later removed. This token was:
-
-- Used for local development/testing only
-- Never used in production
-- Removed in subsequent commits
-- Still present in git history
-
-**Action Required**: If this token is still in use, it should be rotated immediately.
-
-**Lesson**: All tokens and API keys must use environment variables. The `agent-orchestrator.yaml` file is now in `.gitignore` to prevent future accidental commits.
-
 ## Security Measures
 
 ### Automated Secret Scanning

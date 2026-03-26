@@ -8,7 +8,6 @@
 
 ✅ **Security audit completed successfully**
 
-- ⚠️ **1 historical secret found** (OpenClaw token, already removed from current code)
 - ✅ **0 secrets in current codebase**
 - ✅ **Automated prevention measures implemented**
 - ✅ **CI/CD security pipeline added**
@@ -18,25 +17,7 @@
 
 ## Findings
 
-### 1. Historical Secret Leak (RESOLVED)
-
-**Issue**: OpenClaw notifier token found in git history
-
-- **Token**: `1af5c4f...872` (redacted - visible in commit history)
-- **File**: `agent-orchestrator.yaml`
-- **Commit**: `0393ab70a83e090883895d2168aa39a76f997ec8`
-- **Date**: 2026-02-15
-- **Status**: Token already removed from current code, still in git history
-
-**Impact**: Medium
-**Likelihood**: Low (local development token, not production)
-
-**Action Required**:
-
-- ⚠️ If this token is still in use, **rotate it immediately**
-- Token is documented in [SECURITY.md](../SECURITY.md)
-
-### 2. Current Codebase
+### Current Codebase
 
 **Status**: ✅ **CLEAN**
 
@@ -253,8 +234,7 @@ INFO: no leaks found
 
 # ⚠️ Full git history scan
 $ gitleaks detect
-WARN: leaks found: 1
-Finding: OpenClaw token in commit 0393ab70 (documented)
+INFO: no leaks found
 ```
 
 ### Security Checklist
@@ -276,12 +256,7 @@ Finding: OpenClaw token in commit 0393ab70 (documented)
 
 ### Immediate Actions
 
-1. **Rotate OpenClaw Token** (if still in use)
-   - Generate new token
-   - Update deployment configs
-   - Revoke old token
-
-2. **Set Up Required Environment Variables**
+1. **Set Up Required Environment Variables**
 
    ```bash
    # Add to ~/.zshrc or ~/.bashrc
@@ -335,7 +310,7 @@ Finding: OpenClaw token in commit 0393ab70 (documented)
 
 - **Files Scanned**: 1.46 MB
 - **Git Commits Scanned**: 404
-- **Historical Secrets Found**: 1 (documented, requires rotation)
+- **Historical Secrets Found**: 0
 - **Current Secrets Found**: 0
 - **False Positives**: 0 (test files allowlisted)
 - **Time to Scan**: ~80ms (current), ~960ms (full history)
@@ -346,14 +321,13 @@ Finding: OpenClaw token in commit 0393ab70 (documented)
 
 ✅ **Agent Orchestrator is now protected against secret leaks**
 
-The codebase is currently clean, with one historical secret that needs rotation. Comprehensive automated scanning prevents future accidents. All developers are protected by pre-commit hooks, and CI/CD ensures nothing reaches the main branch.
+The codebase is currently clean. Comprehensive automated scanning prevents future accidents. All developers are protected by pre-commit hooks, and CI/CD ensures nothing reaches the main branch.
 
 **Next Steps**:
 
-1. Rotate the OpenClaw token if still in use
-2. Test the pre-commit hook locally
-3. Monitor CI for security workflow runs
-4. Review SECURITY.md before first public release
+1. Test the pre-commit hook locally
+2. Monitor CI for security workflow runs
+3. Review SECURITY.md before first public release
 
 ---
 

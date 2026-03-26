@@ -23,7 +23,6 @@
   },
   "devDependencies": {
     "@composio/ao-plugin-notifier-desktop": "workspace:*",
-    "@composio/ao-plugin-notifier-openclaw": "workspace:*",
     "@composio/ao-plugin-notifier-slack": "workspace:*",
     "@composio/ao-plugin-notifier-webhook": "workspace:*",
     "@composio/ao-plugin-terminal-iterm2": "workspace:*",
